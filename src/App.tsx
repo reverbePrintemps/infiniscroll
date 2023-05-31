@@ -1,5 +1,5 @@
 import { createApi } from "unsplash-js";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ApiResponse } from "unsplash-js/dist/helpers/response";
 import { Photos } from "unsplash-js/dist/methods/search/types/response";
 
@@ -21,58 +21,64 @@ type Photo = {
 };
 
 const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
-  const { user, urls } = photo;
+  const { urls } = photo;
 
-  return (
-    <Fragment>
-      <img className="img" src={urls.regular} />
-      <a
-        className="credit"
-        target="_blank"
-        href={`https://unsplash.com/@${user.username}`}
-      >
-        {user.name}
-      </a>
-    </Fragment>
-  );
+  return <img width={200} className="img" src={urls.regular} />;
 };
 
 const App = () => {
-  const [data, setPhotosResponse] = useState<ApiResponse<Photos>>();
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
+    setLoading(true);
     api.search
-      .getPhotos({ query: "work", orientation: "landscape" })
-      .then((result) => {
-        setPhotosResponse(result);
+      .getPhotos({ query: "nature", page, perPage: 10 })
+      .then((res: ApiResponse<Photos>) => {
+        if (res.response?.results) {
+          setPhotos((prevPhotos) =>
+            page === 1
+              ? res.response.results
+              : [...prevPhotos, ...res.response.results]
+          );
+        }
+        setLoading(false);
       })
-      .catch(() => {
-        console.log("something went wrong!");
+      .catch((err) => {
+        console.log(err);
+        setError("Something went wrong!");
+      })
+      .finally(() => {
+        setLoading(false);
       });
+  }, [page]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 2
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (data === null) {
-    return <div>Loading...</div>;
-  } else if (data?.errors) {
-    return (
-      <div>
-        <div>{data.errors[0]}</div>
-        <div>PS: Make sure to set your access token!</div>
+  return (
+    <div className="App">
+      <div className="photos">
+        {photos.map((photo) => (
+          <PhotoComp key={photo.id} photo={photo} />
+        ))}
       </div>
-    );
-  } else {
-    return (
-      <div className="feed">
-        <ul className="columnUl">
-          {data?.response.results.map((photo) => (
-            <li key={photo.id} className="li">
-              <PhotoComp photo={photo} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+      {error && <div className="error">{error}</div>}
+      {loading && <div className="loading">Loading...</div>}
+    </div>
+  );
 };
 
 export default App;
