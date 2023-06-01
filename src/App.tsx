@@ -24,18 +24,49 @@ export type Photo = {
     username: string;
     name: string;
   };
+  description: string | null;
 };
 
 type PhotoProps = {
-  id: Photo["id"];
+  image: Photo;
   favorite: boolean;
-  urls: Photo["urls"];
   onClick: (id: Photo["id"]) => void;
 };
 
-const Image = ({ id, urls, onClick, favorite }: PhotoProps) => {
+const Image = ({ image, onClick, favorite }: PhotoProps) => {
+  const [showDescription, setShowDescription] = useState(false);
   return (
-    <div style={{ position: "relative", width: 200, height: 200 }}>
+    <div
+      style={{ position: "relative", width: 200, height: 200 }}
+      onClick={() => setShowDescription(!showDescription)}
+      onMouseEnter={() => setShowDescription(true)}
+      onMouseLeave={() => setShowDescription(false)}
+    >
+      {showDescription && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.3)",
+            zIndex: 1,
+          }}
+        >
+          <h1>{image.description}</h1>
+          <h2>{image.user.name}</h2>
+          <button
+            style={{ position: "absolute", bottom: "16px", left: "50%" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick && onClick(image.id);
+            }}
+          >
+            Favorite
+          </button>
+        </div>
+      )}
       {favorite && (
         <HeartIcon
           style={{
@@ -51,14 +82,9 @@ const Image = ({ id, urls, onClick, favorite }: PhotoProps) => {
         style={{ position: "absolute", top: 0, left: 0 }}
         width="100%"
         className="img"
-        src={urls.regular}
+        src={image.urls.regular}
+        alt={image.description || ""}
       />
-      <button
-        style={{ position: "absolute", bottom: "16px", left: "50%" }}
-        onClick={() => onClick && onClick(id)}
-      >
-        Favorite
-      </button>
     </div>
   );
 };
@@ -96,7 +122,7 @@ const App = () => {
     const onScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 2
+        document.body.offsetHeight - window.innerHeight / 2
       ) {
         setPage((prevPage) => prevPage + 1);
       }
@@ -134,8 +160,7 @@ const App = () => {
         {photos.map((photo) => (
           <Image
             key={photo.id}
-            id={photo.id}
-            urls={photo.urls}
+            image={photo}
             onClick={(id) => toggleFavorite(id)}
             favorite={favorites?.includes(photo.id) || false}
           />
