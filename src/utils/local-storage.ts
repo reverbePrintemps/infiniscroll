@@ -1,4 +1,4 @@
-import { Photo } from "../App";
+import { Photo } from "../components/Image";
 
 export enum LocalStorageItems {
   Favorites = "favorites",

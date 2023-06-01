@@ -1,6 +1,7 @@
 import { createApi } from "unsplash-js";
+import { Grid } from "./components/Grid";
 import { useEffect, useState } from "react";
-import { HeartIcon } from "./assets/HeartIcon";
+import { Image, Photo } from "./components/Image";
 import { ApiResponse } from "unsplash-js/dist/helpers/response";
 import { Photos } from "unsplash-js/dist/methods/search/types/response";
 import {
@@ -14,80 +15,7 @@ const apiConfig = {
 };
 const api = createApi(apiConfig);
 
-export type Photo = {
-  id: number | string;
-  width: number;
-  height: number;
-  urls: { large?: string; regular: string; raw: string; small: string };
-  color: string | null;
-  user: {
-    username: string;
-    name: string;
-  };
-  description: string | null;
-};
-
-type PhotoProps = {
-  image: Photo;
-  favorite: boolean;
-  onClick: (id: Photo["id"]) => void;
-};
-
-const Image = ({ image, onClick, favorite }: PhotoProps) => {
-  const [showDescription, setShowDescription] = useState(false);
-  return (
-    <div
-      style={{ position: "relative", width: 200, height: 200 }}
-      onClick={() => setShowDescription(!showDescription)}
-      onMouseEnter={() => setShowDescription(true)}
-      onMouseLeave={() => setShowDescription(false)}
-    >
-      {showDescription && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.3)",
-            zIndex: 1,
-          }}
-        >
-          <h1>{image.description}</h1>
-          <h2>{image.user.name}</h2>
-          <button
-            style={{ position: "absolute", bottom: "16px", left: "50%" }}
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick && onClick(image.id);
-            }}
-          >
-            Favorite
-          </button>
-        </div>
-      )}
-      {favorite && (
-        <HeartIcon
-          style={{
-            position: "absolute",
-            top: "8px",
-            right: "8px",
-            zIndex: "1",
-            fill: "#fff",
-          }}
-        />
-      )}
-      <img
-        style={{ position: "absolute", top: 0, left: 0 }}
-        width="100%"
-        className="img"
-        src={image.urls.regular}
-        alt={image.description || ""}
-      />
-    </div>
-  );
-};
+import "./styles/App.css";
 
 const App = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -156,7 +84,14 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="photos">
+      <Grid
+        style={{
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr)",
+          padding: "clamp(4px, calc(2%), 32px)",
+          gap: "clamp(4px, calc(3vw), 32px)",
+          margin: "auto",
+        }}
+      >
         {photos.map((photo) => (
           <Image
             key={photo.id}
@@ -165,7 +100,7 @@ const App = () => {
             favorite={favorites?.includes(photo.id) || false}
           />
         ))}
-      </div>
+      </Grid>
       {error && <div className="error">{error}</div>}
       {loading && <div className="loading">Loading...</div>}
     </div>
