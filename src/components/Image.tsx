@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HeartIcon } from "../assets/HeartIcon";
 import "../styles/Image.css";
 
@@ -23,39 +23,49 @@ type ImageProps = {
 
 export const Image = ({ image, onClick, favorite }: ImageProps) => {
   const [showDescription, setShowDescription] = useState(false);
+  const [imageIsLoaded, setImageIsLoaded] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (overlayRef.current && imageIsLoaded) {
+      showDescription
+        ? (overlayRef.current.style.maxHeight = `${overlayRef.current.scrollHeight}px`)
+        : (overlayRef.current.style.maxHeight = "0px");
+    }
+  }, [showDescription, imageIsLoaded]);
+
   return (
     <div
       className="Image"
-      style={{ position: "relative" }}
       onClick={() => setShowDescription(!showDescription)}
       onMouseEnter={() => setShowDescription(true)}
       onMouseLeave={() => setShowDescription(false)}
     >
-      {showDescription && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.3)",
-            zIndex: 1,
+      <div
+        ref={overlayRef}
+        className={`Image__overlay ${showDescription ? "m-show" : ""}`}
+      >
+        <div className="Image__descriptionContainer">
+          {image.description && (
+            <>
+              <h1 className="Image__description">{image.description}</h1>
+              <div className="Image__descriptionDivider"></div>
+            </>
+          )}
+          <h2 className="Image__username">
+            <i>{image.user.name}</i>
+          </h2>
+        </div>
+        <button
+          className={`Image__favoriteButton ${favorite ? "m-active" : ""}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick && onClick(image.id);
           }}
         >
-          <h1>{image.description}</h1>
-          <h2>{image.user.name}</h2>
-          <button
-            style={{ position: "absolute", bottom: "16px", left: "50%" }}
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick && onClick(image.id);
-            }}
-          >
-            Favorite
-          </button>
-        </div>
-      )}
+          Favorite
+        </button>
+      </div>
       {favorite && (
         <HeartIcon
           style={{
@@ -64,14 +74,15 @@ export const Image = ({ image, onClick, favorite }: ImageProps) => {
             right: "8px",
             zIndex: "1",
             fill: "#fff",
+            filter: "drop-shadow(var(--shadow-shallow))",
           }}
         />
       )}
       <img
         className="Image__img"
-        width="100%"
         src={image.urls.regular}
         alt={image.description || ""}
+        onLoad={() => setImageIsLoaded(true)}
       />
     </div>
   );
