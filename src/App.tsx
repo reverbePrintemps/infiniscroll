@@ -81,10 +81,13 @@ const App = () => {
     <div className="App">
       <Grid
         style={{
+          width: "100%",
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr)",
           padding: "clamp(4px, calc(2%), 32px)",
           gap: "clamp(4px, calc(3vw), 32px)",
           margin: "auto",
+          boxSizing: "border-box",
+          maxWidth: "var(--mw-app)",
         }}
       >
         {photos.map((photo) => (
