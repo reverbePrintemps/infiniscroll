@@ -1,4 +1,4 @@
-import { createApi } from "unsplash-js";
+import { api } from "./api/unsplash";
 import { Grid } from "./components/Grid";
 import { useEffect, useState } from "react";
 import { Image, Photo } from "./components/Image";
@@ -9,11 +9,6 @@ import {
   getFromLocalStorage,
   setToLocalStorage,
 } from "./utils/local-storage";
-
-const apiConfig = {
-  accessKey: process.env.REACT_APP_unsplash_access_key!,
-};
-const api = createApi(apiConfig);
 
 import "./styles/App.css";
 
