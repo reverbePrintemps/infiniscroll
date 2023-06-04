@@ -1,27 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import { HeartIcon } from "../assets/HeartIcon";
-import "../styles/Image.css";
+import { Skeleton } from "./Skeleton";
+import { Photo } from "../hooks/api";
 
-export type Photo = {
-  id: number | string;
-  width: number;
-  height: number;
-  urls: { large?: string; regular: string; raw: string; small: string };
-  color: string | null;
-  user: {
-    username: string;
-    name: string;
-  };
-  description: string | null;
-};
+import "../styles/Image.css";
 
 type ImageProps = {
   image: Photo;
   favorite: boolean;
   onClick: (id: Photo["id"]) => void;
+  style?: CSSProperties;
 };
 
-export const Image = ({ image, onClick, favorite }: ImageProps) => {
+export const Image = ({ image, onClick, favorite, style }: ImageProps) => {
   const [showDescription, setShowDescription] = useState(false);
   const [imageIsLoaded, setImageIsLoaded] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -40,6 +31,7 @@ export const Image = ({ image, onClick, favorite }: ImageProps) => {
       onClick={() => setShowDescription(!showDescription)}
       onMouseEnter={() => setShowDescription(true)}
       onMouseLeave={() => setShowDescription(false)}
+      style={style}
     >
       <div
         ref={overlayRef}
@@ -57,30 +49,21 @@ export const Image = ({ image, onClick, favorite }: ImageProps) => {
           </h2>
         </div>
         <button
+          disabled={!showDescription}
           className={`Image__favoriteButton ${favorite ? "m-active" : ""}`}
           onClick={(e) => {
-            e.stopPropagation();
             onClick && onClick(image.id);
+            e.stopPropagation();
           }}
         >
           Favorite
         </button>
       </div>
-      {favorite && (
-        <HeartIcon
-          style={{
-            position: "absolute",
-            top: "8px",
-            right: "8px",
-            zIndex: "1",
-            fill: "#fff",
-            filter: "drop-shadow(var(--shadow-shallow))",
-          }}
-        />
-      )}
+      {favorite && <HeartIcon className="Image__favoriteIcon" />}
+      {!imageIsLoaded && <Skeleton className="Image__img" />}
       <img
-        className="Image__img"
-        src={image.urls.regular}
+        className={`Image__img ${imageIsLoaded ? "m-show" : ""}}`}
+        src={image.urls.small}
         alt={image.description || ""}
         onLoad={() => setImageIsLoaded(true)}
       />

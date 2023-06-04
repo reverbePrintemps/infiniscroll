@@ -1,10 +1,12 @@
 type SVGIconProps = {
+  className?: string;
   style?: React.CSSProperties;
 };
 
-export const HeartIcon = ({ style }: SVGIconProps) => {
+export const HeartIcon = ({ style, className }: SVGIconProps) => {
   return (
     <svg
+      className={className}
       width="24"
       height="24"
       focusable="false"
