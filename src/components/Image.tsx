@@ -1,7 +1,14 @@
-import { CSSProperties, useEffect, useRef, useState } from "react";
 import { HeartIcon } from "../assets/HeartIcon";
 import { Skeleton } from "./Skeleton";
 import { Photo } from "../hooks/api";
+import {
+  CSSProperties,
+  useCallback,
+  RefObject,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 
 import "../styles/Image.css";
 
@@ -15,7 +22,17 @@ type ImageProps = {
 export const Image = ({ image, onClick, favorite, style }: ImageProps) => {
   const [showDescription, setShowDescription] = useState(false);
   const [imageIsLoaded, setImageIsLoaded] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const [imageURL, setImageURL] = useState(image.urls.small);
+
+  const imageTooSmall = useCallback((imageRef: RefObject<HTMLImageElement>) => {
+    if (!imageRef.current) return false;
+    return (
+      imageRef.current.naturalWidth < imageRef.current.width ||
+      imageRef.current.naturalHeight < imageRef.current.height
+    );
+  }, []);
 
   useEffect(() => {
     if (overlayRef.current && imageIsLoaded) {
@@ -24,6 +41,12 @@ export const Image = ({ image, onClick, favorite, style }: ImageProps) => {
         : (overlayRef.current.style.maxHeight = "0px");
     }
   }, [showDescription, imageIsLoaded]);
+
+  useEffect(() => {
+    if (imageTooSmall(imageRef)) {
+      setImageURL(image.urls.regular);
+    }
+  }, [imageTooSmall]);
 
   return (
     <div
@@ -62,8 +85,9 @@ export const Image = ({ image, onClick, favorite, style }: ImageProps) => {
       {favorite && <HeartIcon className="Image__favoriteIcon" />}
       {!imageIsLoaded && <Skeleton className="Image__img" />}
       <img
+        ref={imageRef}
         className={`Image__img ${imageIsLoaded ? "m-show" : ""}}`}
-        src={image.urls.small}
+        src={imageURL}
         alt={image.description || ""}
         onLoad={() => setImageIsLoaded(true)}
         // 93.05% global coverage as of this writing
