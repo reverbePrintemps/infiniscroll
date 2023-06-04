@@ -16,6 +16,11 @@ const App = () => {
 
   return (
     <div className="App">
+      <header className="App__header">
+        <div className="App__headerInnerContainer">
+          <h1 className="App__title">Infiniscroll.</h1>
+        </div>
+      </header>
       <div className="App__innerContainer">
         <div className="App__searchContainer">
           <Search
