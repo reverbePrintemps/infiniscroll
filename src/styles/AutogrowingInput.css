@@ -1,0 +1,39 @@
+/* Wrapping in a flex container seems to allow for initial length to be reduced */
+.AutogrowingInput__container {
+  display: inline-flex;
+  width: 100%;
+}
+
+/* Hack to autogrow textarea: https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ */
+
+.AutogrowingInput,
+.AutogrowingInput__textarea {
+  display: grid;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+}
+
+.AutogrowingInput::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+
+.AutogrowingInput__textarea {
+  resize: none;
+  overflow: hidden;
+  color: var(--c-text-main);
+}
+
+.AutogrowingInput__textarea::selection {
+  background-color: var(--c-bg-main);
+  color: var(--c-text-secondary);
+}
+
+.AutogrowingInput__textarea,
+.AutogrowingInput::after {
+  word-wrap: anywhere;
+  grid-area: 1 / 1 / 2 / 2;
+}

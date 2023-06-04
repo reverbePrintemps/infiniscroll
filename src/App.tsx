@@ -1,5 +1,7 @@
 import { ScrollContainer } from "./components/ScrollContainer";
 import { useFavorites } from "./hooks/local-storage";
+import { Search } from "./components/Search";
+import { Button } from "./components/Button";
 import { Image } from "./components/Image";
 import { Grid } from "./components/Grid";
 import { usePhotos } from "./hooks/api";
@@ -15,7 +17,21 @@ const App = () => {
   return (
     <div className="App">
       <div className="App__innerContainer">
+        <div className="App__searchContainer">
+          <Search
+            placeholder="Search for photos"
+            onSearchInput={(input) => {
+              setSearchInput(input);
+            }}
+            onEnter={() => fetchPhotos(searchInput)}
           />
+          <Button
+            style={{ margin: "16px 0 0" }}
+            onClick={() => fetchPhotos(searchInput)}
+          >
+            {loading ? "Loading..." : "Search"}
+          </Button>
+        </div>
         <ScrollContainer
           onIsReachingBottom={(isReachingBottom) => {
             if (isReachingBottom) {

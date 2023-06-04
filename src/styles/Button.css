@@ -1,0 +1,55 @@
+.Button {
+  padding: 10px;
+  font-family: var(--ff-main);
+  background: var(--c-bg-secondary);
+  color: var(--c-text-main);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semi-bold);
+  box-shadow: var(--shadow-shallow);
+  border-radius: var(--br-pill);
+  cursor: pointer;
+  display: inline-flex;
+  position: relative;
+  max-width: fit-content;
+  height: fit-content;
+  border: none;
+}
+
+.Button:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+  color: gray;
+  filter: contrast(0.5);
+  background: black;
+}
+
+.Button.m-active {
+  background-color: var(--c-bg-main);
+  color: var(--c-text-secondary);
+}
+
+.Button.m-pressed {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0;
+  background-color: var(--c-bg-main);
+  color: var(--c-text-secondary);
+}
+
+.Button__openIndicator {
+  transition: all 0.1s ease-in-out;
+  transform-origin: 30%;
+}
+
+.Button__openIndicator.m-open {
+  transform: rotate(-90deg);
+}
+
+@media (hover: hover) {
+  .Button.m-pressed {
+    transform: translate(0, 0);
+  }
+  .Button:not(.m-pressed):hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--shadow-shallow);
+  }
+}
