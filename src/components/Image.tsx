@@ -66,6 +66,8 @@ export const Image = ({ image, onClick, favorite, style }: ImageProps) => {
         src={image.urls.small}
         alt={image.description || ""}
         onLoad={() => setImageIsLoaded(true)}
+        // 93.05% global coverage as of this writing
+        loading="lazy"
       />
     </div>
   );
