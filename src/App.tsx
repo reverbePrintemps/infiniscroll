@@ -1,3 +1,4 @@
+import { ScrollContainer } from "./components/ScrollContainer";
 import { useFavorites } from "./hooks/local-storage";
 import { Image } from "./components/Image";
 import { Grid } from "./components/Grid";
@@ -13,28 +14,30 @@ const App = () => {
 
   return (
     <div className="App">
-      <Grid
-        style={{
-          width: "100%",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr)",
-          padding: "clamp(4px, calc(2%), 32px)",
-          gap: "clamp(4px, calc(3vw), 32px)",
-          margin: "auto",
-          boxSizing: "border-box",
-          maxWidth: "var(--mw-app)",
-        }}
-      >
-        {photos.map((photo) => (
-          <Image
-            key={photo.id}
-            image={photo}
-            onClick={(id) => toggleFavorite(id)}
-            favorite={favorites?.includes(photo.id) || false}
+      <div className="App__innerContainer">
           />
-        ))}
-      </Grid>
-      {error && <div className="error">{error}</div>}
-      {loading && <div className="loading">Loading...</div>}
+        <ScrollContainer
+          onIsReachingBottom={(isReachingBottom) => {
+            if (isReachingBottom) {
+              fetchMore();
+            }
+          }}
+        >
+          <Grid>
+            {photos.map((photo, index) => (
+              <Image
+                key={photo.id}
+                image={photo}
+                onClick={(id) => toggleFavorite(id)}
+                favorite={favorites?.includes(photo.id) || false}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              />
+            ))}
+          </Grid>
+        </ScrollContainer>
+        {/* No styles for Error class in this exercise. Demo purposes only. :) */}
+        {error && <div className="Error">{error}</div>}
+      </div>
     </div>
   );
 };
