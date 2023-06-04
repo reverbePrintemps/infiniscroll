@@ -1,4 +1,4 @@
-import { Photo } from "../components/Image";
+import { Photo } from "../hooks/api";
 
 export enum LocalStorageItems {
   Favorites = "favorites",
