@@ -37,11 +37,15 @@ export const usePhotos = () => {
       });
 
       if (res.response) {
-        setPhotos((prevPhotos) =>
-          page === 1
-            ? res.response.results
-            : [...prevPhotos, ...res.response.results]
-        );
+        if (res.response.results.length === 0) {
+          throw new Error("No results found 🙈");
+        } else {
+          setPhotos((prevPhotos) =>
+            page === 1
+              ? res.response.results
+              : [...prevPhotos, ...res.response.results]
+          );
+        }
         setPage((prevPage) => prevPage + 1);
         setLoading(false);
       } else {

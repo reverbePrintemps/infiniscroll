@@ -3,6 +3,7 @@ import { useFavorites } from "./hooks/local-storage";
 import { Search } from "./components/Search";
 import { Button } from "./components/Button";
 import { Image } from "./components/Image";
+import { Error } from "./components/Error";
 import { Grid } from "./components/Grid";
 import { usePhotos } from "./hooks/api";
 import { useState } from "react";
@@ -56,8 +57,7 @@ const App = () => {
             ))}
           </Grid>
         </ScrollContainer>
-        {/* No styles for Error class in this exercise. Demo purposes only. :) */}
-        {error && <div className="Error">{error}</div>}
+        {error && <Error className="App__error">{error}</Error>}
       </div>
     </div>
   );

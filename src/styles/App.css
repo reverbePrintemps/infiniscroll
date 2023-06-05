@@ -48,3 +48,9 @@
   height: 100%;
   width: 100%;
 }
+
+.App__error {
+  text-align: center;
+  color: var(--c-text-secondary);
+  font-size: var(--fs-xs);
+}
