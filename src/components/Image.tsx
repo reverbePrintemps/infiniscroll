@@ -55,6 +55,7 @@ export const Image = ({ image, onClick, favorite, style }: ImageProps) => {
       onMouseEnter={() => setShowDescription(true)}
       onMouseLeave={() => setShowDescription(false)}
       style={style}
+      data-testid="image-description-container"
     >
       <div
         ref={overlayRef}

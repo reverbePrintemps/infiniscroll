@@ -9,7 +9,11 @@ interface SkeletonProps {
 
 export const Skeleton = ({ children, className, style }: SkeletonProps) => {
   return (
-    <div className={`Skeleton ${className || ""}`} style={style}>
+    <div
+      className={`Skeleton ${className || ""}`}
+      style={style}
+      data-testid="image-skeleton"
+    >
       {children}
     </div>
   );
