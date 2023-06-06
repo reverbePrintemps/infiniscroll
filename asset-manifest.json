@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/infiniscroll/static/css/main.61b461ab.css",
+    "main.js": "/infiniscroll/static/js/main.aa081a9f.js",
+    "static/js/787.3abcbe78.chunk.js": "/infiniscroll/static/js/787.3abcbe78.chunk.js",
+    "static/media/Sora-Variable.ttf": "/infiniscroll/static/media/Sora-Variable.29d5da1be45cb0b3fef4.ttf",
+    "index.html": "/infiniscroll/index.html",
+    "main.61b461ab.css.map": "/infiniscroll/static/css/main.61b461ab.css.map",
+    "main.aa081a9f.js.map": "/infiniscroll/static/js/main.aa081a9f.js.map",
+    "787.3abcbe78.chunk.js.map": "/infiniscroll/static/js/787.3abcbe78.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.61b461ab.css",
+    "static/js/main.aa081a9f.js"
+  ]
+}
