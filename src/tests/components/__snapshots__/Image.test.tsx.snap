@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image component toggles description on click 1`] = `
+<div
+  class="Image"
+  data-testid="image-description-container"
+>
+  <div
+    class="Image__overlay m-show"
+  >
+    <div
+      class="Image__descriptionContainer"
+    >
+      <h1
+        class="Image__description"
+      >
+        Test image
+      </h1>
+      <div
+        class="Image__descriptionDivider"
+      />
+      <h2
+        class="Image__username"
+      >
+        <i>
+          John Doe
+        </i>
+      </h2>
+    </div>
+    <button
+      class="Image__favoriteButton "
+    >
+      Favorite
+    </button>
+  </div>
+  <div
+    class="Skeleton Image__img"
+    data-testid="image-skeleton"
+  />
+  <img
+    alt="Test image"
+    class="Image__img }"
+    loading="lazy"
+    src="small_image_url"
+  />
+</div>
+`;
+
+exports[`Image component toggles description on click 2`] = `
+<div
+  class="Image"
+  data-testid="image-description-container"
+>
+  <div
+    class="Image__overlay "
+  >
+    <div
+      class="Image__descriptionContainer"
+    >
+      <h1
+        class="Image__description"
+      >
+        Test image
+      </h1>
+      <div
+        class="Image__descriptionDivider"
+      />
+      <h2
+        class="Image__username"
+      >
+        <i>
+          John Doe
+        </i>
+      </h2>
+    </div>
+    <button
+      class="Image__favoriteButton "
+      disabled=""
+    >
+      Favorite
+    </button>
+  </div>
+  <div
+    class="Skeleton Image__img"
+    data-testid="image-skeleton"
+  />
+  <img
+    alt="Test image"
+    class="Image__img }"
+    loading="lazy"
+    src="small_image_url"
+  />
+</div>
+`;

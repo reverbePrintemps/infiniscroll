@@ -1,0 +1,89 @@
+@font-face {
+  font-family: "Sora";
+  src: url("../assets/Sora-Variable.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  /* Widths */
+  --mw-app: 1200px;
+  /* Colors */
+  --c-bg-main: #e7e7e7;
+  --c-bg-secondary: #1f271b;
+  --c-text-main: #fff;
+  --c-text-secondary: #1f271b;
+  --c-skeleton-bg: #ccc;
+  --c-skeleton-bg-light: #ddd;
+  /* Shadows */
+  --shadow-shallow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  /* Fonts */
+  --ff-main: "Sora";
+  /* Font sizes */
+  --fs-s: clamp(16px, 6vw, 24px);
+  --fs-xs: clamp(12px, 4vw, 14px);
+  /* Font weights */
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-extra-bold: 800;
+  /* Border radius */
+  --br-card: 4px;
+  --br-pill: 999px;
+}
+
+:root {
+  background: var(--c-bg-main);
+}
+
+body {
+  margin: 0;
+  color: var(--c-text-main);
+  font-family: var(--ff-main), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: var(--fs-xs);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+ul,
+ol,
+a,
+button,
+input,
+textarea,
+select,
+label,
+span,
+div {
+  margin-bottom: 0;
+}
+
+h1::selection,
+h2::selection,
+h3::selection,
+h4::selection,
+h5::selection,
+h6::selection,
+p::selection,
+li::selection,
+ul::selection,
+ol::selection,
+a::selection,
+button::selection,
+input::selection,
+textarea::selection,
+select::selection,
+label::selection,
+span::selection,
+div::selection {
+  background-color: var(--c-bg-secondary);
+  color: var(--c-text-main);
+}

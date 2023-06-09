@@ -1,0 +1,5 @@
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(4px, calc(3vw), 32px);
+}
